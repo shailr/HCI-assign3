@@ -27,7 +27,7 @@
             <label for='num_circles'>Number of circles</label>
           </div>
           <div class='col-md-8'>
-            <input type='number' class='form-control' id='num_circles' value='9'>
+            <input type='number' class='form-control' id='num_circles' value='8'>
           </div>
         </div>
         <div class='row'>
@@ -35,7 +35,7 @@
             <label for='size_circles'>Size of circles (Width of target)</label>
           </div>
           <div class='col-md-8'>
-            <input type='number' class='form-control' id='size_circles' value='10'>
+            <input type='number' class='form-control' id='size_circles' value='25'>
           </div>
         </div>
         <div class='row'>
@@ -43,7 +43,14 @@
             <label for='dist_circles'>Distance between circles (Distance to target)</label>
           </div>
           <div class='col-md-8'>
-            <input type='number' class='form-control' id='dist_circles' value='50'>
+            <input type='number' class='form-control' id='dist_circles' value='100'>
+          </div>
+        </div>
+        <br>
+        <div class='row'>
+          <div class='col-md-4'></div>
+          <div class='col-md-8'>
+            <button type='button' class='btn' id='redraw_btn'>Redraw</button>
           </div>
         </div>
       </div>
@@ -54,13 +61,11 @@
       </div>
       <div class='container'>
         <div class='row'>
-          <!-- <div class='col-md-1'></div> -->
           <div class='col-md-12 text-center'>
-            <canvas id="app" class="apparatus-canvas" width="800" height="400">
-          Your browser does not support HTML5 Canvas element.
-            </canvas>
+            <svg id="app" class="apparatus-canvas" width="900" height="450">
+          Your browser does not support SVG element.
+            </svg>
           </div>
-          <!-- <div class='col-md-1'></div> -->
         </div>
         
       </div>
