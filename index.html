@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="./style.css">
+
+  <script src="./node_modules/jquery/dist/jquery.slim.min.js"></script>
+  <script src="./node_modules/popper.js/dist/umd/popper.min.js"></script>
+  <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript" src="./main.js"></script>
+
+  <title>Fitt's Law Replication</title>
+</head>
+<body>
+  <div class='container'>
+    <div class='row'>
+      <span class='h1 col-md-12 text-center'>Fitt's Law Replication</span>
+    </div>
+  </div>
+  <br>
+  <div class='container'>
+    <form>
+      <div class='form-group'>
+        <div class='row'>
+          <div class='col-md-4'>
+            <label for='num_circles'>Number of circles</label>
+          </div>
+          <div class='col-md-8'>
+            <input type='number' class='form-control' id='num_circles' value='9'>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-md-4'>
+            <label for='size_circles'>Size of circles (Width of target)</label>
+          </div>
+          <div class='col-md-8'>
+            <input type='number' class='form-control' id='size_circles' value='10'>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-md-4'>
+            <label for='dist_circles'>Distance between circles (Distance to target)</label>
+          </div>
+          <div class='col-md-8'>
+            <input type='number' class='form-control' id='dist_circles' value='50'>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div>
+      <div class='row'>
+        <div class='col-md-12 h3 text-center'>Apparatus Canvas</div>
+      </div>
+      <div class='container'>
+        <div class='row'>
+          <!-- <div class='col-md-1'></div> -->
+          <div class='col-md-12 text-center'>
+            <canvas id="app" class="apparatus-canvas" width="800" height="400">
+          Your browser does not support HTML5 Canvas element.
+            </canvas>
+          </div>
+          <!-- <div class='col-md-1'></div> -->
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
