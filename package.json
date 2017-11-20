@@ -1,0 +1,18 @@
+{
+  "name": "hci_assign3",
+  "version": "1.0.0",
+  "description": "Replicate Fitt's Law",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shail Rakhunde",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.0.0-beta.2",
+    "bower": "^1.8.2",
+    "http-server": "^0.10.0",
+    "jquery": "^3.2.1",
+    "popper.js": "^1.12.9"
+  }
+}
