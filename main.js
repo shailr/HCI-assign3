@@ -15,6 +15,12 @@ $(document).ready(function() {
   $("#redraw_btn").on("click", function() {
     redrawCanvas(svg);
   });
+  $("#export_btn").on("click", function() {
+    exportCSV();
+  });
+  $("#reset_btn").on("click", function() {
+    reset();
+  });
 
   redrawCanvas(svg);
 
@@ -37,7 +43,6 @@ $(document).ready(function() {
     while(node.hasChildNodes()) {
       node.removeChild(node.lastChild);
     }
-    circle_list = [];
   }
 
   // Redraw the canvas as per input parameters
@@ -48,6 +53,7 @@ $(document).ready(function() {
     var center_x = (svg.width.baseVal.value) / 2, center_y = (svg.height.baseVal.value) / 2;
 
     clearAllChildren(svg);
+    circle_list = [];
     for (var i = 0; i < num_circles; i++) {
       var angle = i * 2 * Math.PI / num_circles;
 
@@ -75,14 +81,16 @@ $(document).ready(function() {
     readings.push(reading);
     updateTable(reading);
 
-    circle_list[c_id].setAttribute('fill', FILL_COLOR);
-    if (c_id < circle_list.length / 2) {
-      circle_list[c_id + (circle_list.length / 2)].setAttribute('fill', ACTIVE_FILL_COLOR);
-    } else {
-      if ((c_id + 1 - (circle_list.length / 2)) ==  (circle_list.length / 2)){
-        circle_list[0].setAttribute('fill', ACTIVE_FILL_COLOR);
+    if (circle_list[c_id].getAttribute('fill') == ACTIVE_FILL_COLOR) {
+      circle_list[c_id].setAttribute('fill', FILL_COLOR);
+      if (c_id < circle_list.length / 2) {
+        circle_list[c_id + (circle_list.length / 2)].setAttribute('fill', ACTIVE_FILL_COLOR);
       } else {
-        circle_list[c_id + 1 - (circle_list.length / 2)].setAttribute('fill', ACTIVE_FILL_COLOR);
+        if ((c_id + 1 - (circle_list.length / 2)) ==  (circle_list.length / 2)){
+          circle_list[0].setAttribute('fill', ACTIVE_FILL_COLOR);
+        } else {
+          circle_list[c_id + 1 - (circle_list.length / 2)].setAttribute('fill', ACTIVE_FILL_COLOR);
+        }
       }
     }
   }
@@ -100,5 +108,33 @@ $(document).ready(function() {
     var td = document.createElement('td'); td.innerHTML = reading.num_circles; tr.appendChild(td);
 
     table_body.append(tr);
+  }
+
+  function reset() {
+    document.getElementById('num_circles').value = 8;
+    document.getElementById('size_circles').value = 25;
+    document.getElementById('dist_circles').value = 100;
+    readings = [];
+
+    var table_body = $('#readings-table tbody')[0];
+
+    clearAllChildren(table_body);
+    redrawCanvas(svg);
+  }
+
+  function exportCSV() {
+    var fields = ['id', 'timestamp', 'cx', 'cy', 'radius', 'dist', 'num_circles'];
+    var csv = json2csv( { data: readings, fields: fields } );
+
+    var exportedFilenmae = 'export.csv';
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", exportedFilenmae);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 });
