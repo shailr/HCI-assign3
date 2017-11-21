@@ -77,7 +77,6 @@ $(document).ready(function() {
     reading.num_circles = num_circles;
     reading.timestamp = Date.now();
 
-    console.log(reading);
     readings.push(reading);
     updateTable(reading);
 
