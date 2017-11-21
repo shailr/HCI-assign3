@@ -57,8 +57,9 @@ $(document).ready(function() {
     for (var i = 0; i < num_circles; i++) {
       var angle = i * 2 * Math.PI / num_circles;
 
-      var n_circle = newCircle(center_x + dist_circles * Math.cos(angle),
-        center_y + dist_circles * Math.sin(angle),
+      var rad = dist_circles / 2;
+      var n_circle = newCircle(center_x + rad * Math.cos(angle),
+        center_y + rad * Math.sin(angle),
         size_circles,
         BORDER_COLOR, FILL_COLOR, i);
       circle_list.push(n_circle)
@@ -112,7 +113,7 @@ $(document).ready(function() {
   function reset() {
     document.getElementById('num_circles').value = 8;
     document.getElementById('size_circles').value = 25;
-    document.getElementById('dist_circles').value = 100;
+    document.getElementById('dist_circles').value = 200;
     readings = [];
 
     var table_body = $('#readings-table tbody')[0];
