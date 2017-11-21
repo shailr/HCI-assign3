@@ -7,6 +7,7 @@
   <script src="./node_modules/jquery/dist/jquery.slim.min.js"></script>
   <script src="./node_modules/popper.js/dist/umd/popper.min.js"></script>
   <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="./node_modules/json2csv/dist/json2csv.js"></script>
 
   <script type="text/javascript" src="./main.js"></script>
 
@@ -49,8 +50,11 @@
         <br>
         <div class='row'>
           <div class='col-md-4'></div>
-          <div class='col-md-8'>
+          <div class='col-md-4'>
             <button type='button' class='btn' id='redraw_btn'>Redraw</button>
+          </div>
+          <div class='col-md-4'>
+            <button type='button' class='btn' id='export_btn'>Export</button>
           </div>
         </div>
       </div>
@@ -67,8 +71,25 @@
             </svg>
           </div>
         </div>
-        
       </div>
+    </div>
+    <div>
+      <table id='readings-table' class='table table-bordered table-hover'>
+        <thead>
+          <tr>
+            <th>Circle ID</th>
+            <th>Timestamp</th>
+            <th>Cx</th>
+            <th>Cy</th>
+            <th>Radius</th>
+            <th>Distance</th>
+            <th>Number of circles</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Populated through script -->
+        </tbody>
+      </table>
     </div>
   </div>
 </body>

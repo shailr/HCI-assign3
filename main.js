@@ -1,45 +1,104 @@
 $(document).ready(function() {
 
-  var ns = 'http://www.w3.org/2000/svg';
+  var SVG_NS = 'http://www.w3.org/2000/svg';
+  var BORDER_COLOR = 'black';
+  var FILL_COLOR = 'white';
+  var ACTIVE_FILL_COLOR = 'red';
+
   var svg = document.getElementById('app');
+  var num_circles = document.getElementById('num_circles').value;
+  var size_circles = document.getElementById('size_circles').value;
+  var dist_circles = document.getElementById('dist_circles').value;
+  var circle_list = [];
+  var readings = [];
+
   $("#redraw_btn").on("click", function() {
     redrawCanvas(svg);
   });
 
   redrawCanvas(svg);
 
-  function newCircle(cx, cy, r, strokecolor, fillcolor) {
-    var new_circle = document.createElementNS(ns, 'circle');
+  // Create circles as per input parameters
+  function newCircle(cx, cy, r, strokecolor, fillcolor, c_id) {
+    var new_circle = document.createElementNS(SVG_NS, 'circle');
     new_circle.setAttributeNS(null, 'cx', cx);
     new_circle.setAttributeNS(null, 'cy', cy);
     new_circle.setAttributeNS(null, 'r', r);
     new_circle.setAttributeNS(null, 'stroke', strokecolor);
     new_circle.setAttributeNS(null, 'stroke-width', 2);
     new_circle.setAttributeNS(null, 'fill', fillcolor);
+    new_circle.onclick = function() { clickCircle(c_id); };
 
     return new_circle;
   }
 
+  // Clear the canvas before redrawing
   function clearAllChildren(node) {
     while(node.hasChildNodes()) {
       node.removeChild(node.lastChild);
     }
+    circle_list = [];
   }
 
+  // Redraw the canvas as per input parameters
   function redrawCanvas(svg) {
-    var num_circles = document.getElementById('num_circles').value;
-    var size_circles = document.getElementById('size_circles').value;
-    var dist_circles = document.getElementById('dist_circles').value;
+    num_circles = document.getElementById('num_circles').value;
+    size_circles = document.getElementById('size_circles').value;
+    dist_circles = document.getElementById('dist_circles').value;
     var center_x = (svg.width.baseVal.value) / 2, center_y = (svg.height.baseVal.value) / 2;
 
     clearAllChildren(svg);
     for (var i = 0; i < num_circles; i++) {
       var angle = i * 2 * Math.PI / num_circles;
 
-      svg.appendChild(newCircle(center_x + dist_circles * Math.cos(angle),
+      var n_circle = newCircle(center_x + dist_circles * Math.cos(angle),
         center_y + dist_circles * Math.sin(angle),
         size_circles,
-        'black', 'white'));
+        BORDER_COLOR, FILL_COLOR, i);
+      circle_list.push(n_circle)
+      svg.appendChild(n_circle);
     }
+    svg.firstChild.setAttributeNS(null, 'fill', ACTIVE_FILL_COLOR);
+  }
+
+  function clickCircle (c_id) {
+    var reading = {};
+    reading.id = c_id;
+    reading.cx = circle_list[c_id].getAttribute('cx');
+    reading.cy = circle_list[c_id].getAttribute('cy');
+    reading.radius = circle_list[c_id].getAttribute('r');
+    reading.dist = dist_circles;
+    reading.num_circles = num_circles;
+    reading.timestamp = Date.now();
+
+    console.log(reading);
+    readings.push(reading);
+    updateTable(reading);
+
+    circle_list[c_id].setAttribute('fill', FILL_COLOR);
+    if (c_id < circle_list.length / 2) {
+      circle_list[c_id + (circle_list.length / 2)].setAttribute('fill', ACTIVE_FILL_COLOR);
+    } else {
+      if ((c_id + 1 - (circle_list.length / 2)) ==  (circle_list.length / 2)){
+        circle_list[0].setAttribute('fill', ACTIVE_FILL_COLOR);
+      } else {
+        circle_list[c_id + 1 - (circle_list.length / 2)].setAttribute('fill', ACTIVE_FILL_COLOR);
+      }
+    }
+  }
+
+  function updateTable (reading) {
+    var table_body = $('#readings-table tbody');
+    var tr = document.createElement('tr');
+
+    var td = document.createElement('td'); td.innerHTML = reading.id; tr.appendChild(td);
+    var td = document.createElement('td'); td.innerHTML = reading.timestamp; tr.appendChild(td);
+    var td = document.createElement('td'); td.innerHTML = reading.cx; tr.appendChild(td);
+    var td = document.createElement('td'); td.innerHTML = reading.cy; tr.appendChild(td);
+    var td = document.createElement('td'); td.innerHTML = reading.radius; tr.appendChild(td);
+    var td = document.createElement('td'); td.innerHTML = reading.dist; tr.appendChild(td);
+    var td = document.createElement('td'); td.innerHTML = reading.num_circles; tr.appendChild(td);
+
+    table_body.append(tr);
   }
 });
