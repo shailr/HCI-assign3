@@ -71,15 +71,13 @@ $(document).ready(function() {
   function clickCircle (c_id) {
     var reading = {};
     reading.id = c_id;
-    reading.cx = circle_list[c_id].getAttribute('cx');
-    reading.cy = circle_list[c_id].getAttribute('cy');
-    reading.radius = circle_list[c_id].getAttribute('r');
-    reading.dist = dist_circles;
-    reading.num_circles = num_circles;
+    reading.cx = parseFloat(circle_list[c_id].getAttribute('cx'));
+    reading.cy = parseFloat(circle_list[c_id].getAttribute('cy'));
+    reading.radius = parseFloat(circle_list[c_id].getAttribute('r'));
+    reading.dist = parseFloat(dist_circles);
+    reading.num_circles = parseFloat(num_circles);
     reading.timestamp = Date.now();
-
-    readings.push(reading);
-    updateTable(reading);
+    reading.valid = false;
 
     if (circle_list[c_id].getAttribute('fill') == ACTIVE_FILL_COLOR) {
       circle_list[c_id].setAttribute('fill', FILL_COLOR);
@@ -92,7 +90,11 @@ $(document).ready(function() {
           circle_list[c_id + 1 - (circle_list.length / 2)].setAttribute('fill', ACTIVE_FILL_COLOR);
         }
       }
+      reading.valid = true;
     }
+
+    readings.push(reading);
+    updateTable(reading);
   }
 
   function updateTable (reading) {
@@ -106,6 +108,7 @@ $(document).ready(function() {
     var td = document.createElement('td'); td.innerHTML = reading.radius; tr.appendChild(td);
     var td = document.createElement('td'); td.innerHTML = reading.dist; tr.appendChild(td);
     var td = document.createElement('td'); td.innerHTML = reading.num_circles; tr.appendChild(td);
+    var td = document.createElement('td'); td.innerHTML = reading.valid; tr.appendChild(td);
 
     table_body.append(tr);
   }
@@ -123,7 +126,7 @@ $(document).ready(function() {
   }
 
   function exportCSV() {
-    var fields = ['id', 'timestamp', 'cx', 'cy', 'radius', 'dist', 'num_circles'];
+    var fields = ['id', 'timestamp', 'cx', 'cy', 'radius', 'dist', 'num_circles', 'valid'];
     var csv = json2csv( { data: readings, fields: fields } );
 
     var exportedFilenmae = 'export.csv';
